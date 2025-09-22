@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gw-controller
+  namespace: gateway-serverscom
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: system:controller:gw-controller
+rules:
+- apiGroups: [""]
+  resources: ["secrets", "endpoints", "services", "pods", "nodes", "namespaces", "configmaps", "events"]
+  verbs: ["get", "list", "watch", "update", "create", "patch"]
+- apiGroups: ["gateway.networking.k8s.io"]
+  resources: ["gatewayclasses", "gateways", "httproutes", "grpcroutes", "referencegrants"]
+  verbs: ["get", "list", "watch", "update", "create", "patch"]
+- apiGroups: ["gateway.networking.k8s.io"]
+  resources: ["gatewayclasses/status", "gateways/status"]
+  verbs: ["update", "patch"]
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get", "watch", "list", "create", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system:controller:gw-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:controller:gw-controller
+subjects:
+- kind: ServiceAccount
+  name: gw-controller
+  namespace: gateway-serverscom

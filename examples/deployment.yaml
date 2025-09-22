@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gw-controller
+  namespace: gateway-serverscom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gw-controller
+  template:
+    metadata:
+      labels:
+        app: gw-controller
+    spec:
+      serviceAccountName: gw-controller
+      containers:
+      - name: gw-controller
+        image: gw-controller:local
+        imagePullPolicy: IfNotPresent
+        args:
+          # - "--zap-log-level=debug"
+        env:
+          - name: SC_ACCESS_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: serverscom
+                key: access-token
+          - name: SC_API_URL
+            valueFrom:
+              secretKeyRef:
+                name: serverscom
+                key: api-url
+          - name: SC_CLUSTER_ID
+            valueFrom:
+              secretKeyRef:
+                name: serverscom
+                key: cluster-id
+          - name: SC_LOCATION_ID
+            valueFrom:
+              secretKeyRef:
+                name: serverscom
+                key: location-id
