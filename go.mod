@@ -5,7 +5,7 @@ go 1.24.6
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/onsi/gomega v1.38.2
-	github.com/serverscom/serverscom-go-client v1.0.20
+	github.com/serverscom/serverscom-go-client v1.0.22
 	github.com/spf13/pflag v1.0.6
 	go.uber.org/mock v0.6.0
 	k8s.io/api v0.34.0
@@ -77,5 +77,3 @@ require (
 )
 
 tool github.com/maxbrunsfeld/counterfeiter/v6
-
-replace github.com/serverscom/serverscom-go-client => /Users/oleg/sc/github/serverscom-go-client
