@@ -84,6 +84,10 @@ func (s *Manager) DeleteLB(ctx context.Context, labelSelector string) error {
 	if err != nil {
 		return utils.IgnoreNotFound(err)
 	}
+	if len(lbs) == 0 {
+		// consider as already deleted
+		return nil
+	}
 	if len(lbs) > 1 {
 		return fmt.Errorf("found more than one lb with same label")
 	}
